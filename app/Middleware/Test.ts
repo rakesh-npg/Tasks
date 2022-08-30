@@ -6,7 +6,3 @@ export default class Test {
     await next()
   }
 }
-/*
-when will you come to college 
-did you attend all exams 
-*/

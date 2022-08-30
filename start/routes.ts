@@ -22,5 +22,7 @@ import Route from '@ioc:Adonis/Core/Route'
   
 Route.post('/cal', 'CalcsController.add').middleware('test')
 Route.get('/getCal', 'CalcsController.test')
-
+Route.get('/query', 'CalcsController.query')
 Route.post('/test', 'CalcsController.add')
+Route.get('/update', 'CalcsController.update')
+Route.post('/delete', 'CalcsController.delete')
