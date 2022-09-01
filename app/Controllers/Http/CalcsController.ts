@@ -1,89 +1,40 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import {schema, rules} from '@ioc:Adonis/Core/Validator'
 import User from 'App/Models/User'
+import Task from 'App/Models/Task'
 import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class CalcsController {
-    public async add({request}:HttpContextContract){
-        
-        const dataSchema = schema.create({
-            num1: schema.number() ,
-            num2: schema.number(), 
-            sym : schema.number()
-        })
-        try{
-        const payload = await request.validate({schema: dataSchema})
-        console.log('schema')
-        const num1: number = payload.num1
-        const num2: number = payload.num2
-        const sym: number = payload.sym
-        const user = new User() 
+    public async testing({request}:HttpContextContract){
+        const ins = new User() 
+        const qu = new Task() 
+        ins.id = 3
+        ins.username = 'test3' 
+        ins.email = 'test3' 
+        ins.password = 'test3'
 
-        user.name = 'test' 
-        user.email = 'test@test.com'
-        const user1=new User()
-        user1.name='karthik'
-        user1.email='karthik@.com'
-        await user1.save()
-        await user.save() 
-        switch(sym) {
-        case 1: 
-        return num1 + num2
+        qu.id = 3
+        qu.status_id = 1
 
-        case 2: 
-        return num1 - num2
+        await ins.save() 
+        await qu.save() 
+        console.log('done')
 
-        case 3: 
-        return num1 * num2
 
-        case 4: 
-        return num1 / num2
-
-        default: 
-        break 
-        }
-    }
-        catch (error) {
-            console.log('wrong data')
-
-            }
         
     }
-     public async test(){
-        let num1:number = 1 
-        let num2:number = 2
-        return {"add" : num1 + num2, 
-        "sub" : num1 - num2, 
-        "mul" :num1 * num2,
-        "div" : num1 / num2}
-        
+
+
+    public async meh({request}:HttpContextContract){
+        const value = await Database.from('users')
+        .join('tasks', 'users.id', '=','tasks.id')
+        .select('users.*')
+        .select('tasks.*')
+
+        console.log(value)
+    }
+
+     
      }
 
-     public async query() {
-        
-        const user = await User.all() 
-        console.log(user) 
-        return user
-
-     }
-
-     public async update() {
-        const user = await User.findByOrFail('name', 'test')
-        user.email = 'test1@tet1.com'
-        await user.save() 
-        return await User.all() 
-     }
-
-     public async delete({request}: HttpContextContract) {
-        const reqSchema = schema.create({
-            id: schema.number()
-        })
-
-        const payload = await request.validate({schema: reqSchema})
-        const user = await User.findByOrFail('id', payload.id)
-        await user.delete() 
-        return await User.all() 
-        }
-
-     }
 
