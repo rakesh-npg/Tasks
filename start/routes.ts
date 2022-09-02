@@ -20,7 +20,31 @@
 
 
 import Route from '@ioc:Adonis/Core/Route'
-  
+import { test } from '@japa/runner'
+import Authenticator from 'App/Middleware/Authenticator'
+//Route.post('/create', 'EmpsController.create')
 
-Route.get('/testing', 'CalcsController.testing')
-Route.get('/meh', 'CalcsController.meh')
+Route.group(() => {
+    Route.post('/create', 'EmpsController.create')
+    Route.put('/update', 'EmpsController.update')
+    Route.delete('/delete/:id', 'EmpsController.del')
+    Route.get('/read', 'EmpsController.read')
+    Route.get('/read/:id', 'EmpsController.read_id')
+
+    
+}).prefix('/emp').middleware('test')
+
+Route.group(() => {
+    Route.post('/create', 'DeptsController.create')
+    Route.put('/update', 'DeptsController.update')
+    Route.delete('/delete/:id', 'DeptsController.del')
+    Route.get('/read', 'DeptsController.read')
+    Route.get('/read/:id', 'DeptsController.read_id')
+    
+}).prefix('/dept')   
+
+
+Route.get('/getDept/:id', 'EmpsController.getDept')
+
+Route.post('/getEmps', 'EmpsController.getEmps')
+
