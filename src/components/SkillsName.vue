@@ -50,6 +50,8 @@
         :value="choice.name"
         required
       ></v-checkbox>
+
+
   <v-select
       v-model="select"
       :items="items"
@@ -84,6 +86,7 @@
       nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+        v => /[a-zA-z]/.test(v) || 'gjh', 
       ],
       email: '',
       emailRules: [
@@ -92,7 +95,7 @@
       ],
       gender:'',
       genderRules: [
-        v => !!v || 'Name is required'],
+        v => !!v || 'required'],
       choices: [
        {id :1,name:'Football'},{id:2,name:'Cricket'},{id:3,name:'Basketball'}],
       items: [

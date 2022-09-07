@@ -1,0 +1,273 @@
+<template> 
+    <v-app>
+        <h1>
+            hello world
+        </h1>
+    
+    <!-- <v-data-table
+      :headers="headers"
+      :items="desserts"
+      item-key="name"
+      class="elevation-1"
+    ></v-data-table> -->
+    <v-simple-table height="300px">
+      <template v-slot:default>
+        <thead>
+          <tr>
+
+            <th class="text-left">
+              ID
+            </th>
+            <th class="text-left">
+              Name
+            </th>
+            <th class="text-left">
+              Email
+            </th>
+            <th class="text-left">
+              Gender
+            </th>
+            <th class="text-left">
+              Hobbies
+            </th>
+            <th class="text-left">
+              location
+            </th>
+            <th class="text-left">
+        
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="item in desserts"
+            :key="item.name"
+          >
+          <td >{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.gender }}</td>
+            <td>{{ item.hobbies }}</td>
+            <td>{{ item.location }}</td>
+            <td>
+                <v-btn @click="edit(item)">
+                    Edit
+                </v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+    
+
+    <div class="text-center">
+      <v-dialog
+        v-model="dialog"
+        width="500"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="red lighten-2"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            Click Me
+          </v-btn>
+        </template>
+  
+  <v-card>
+          <v-card-title class="text-h5 grey lighten-2">
+            Privacy Policy
+          </v-card-title>
+  
+          <v-form
+    ref="form"
+    v-model="valid"
+    lazy-validation
+  >
+    <v-text-field
+      v-model="name"
+      :counter="10"
+      :rules="nameRules"
+      label="Name"
+      required
+    ></v-text-field>
+
+    <v-text-field
+      v-model="email"
+      :rules="emailRules"
+      label="E-mail"
+      required
+    ></v-text-field>
+    <br>
+    <h3 >Gender</h3>
+    <v-radio-group
+      v-model="gender"
+      :rules="genderRules">
+            <v-radio
+              label="male"
+              color="primary"
+              value="male"
+            ></v-radio>
+            <v-radio
+              label="female"
+              color="secondary"
+              value="femlae"
+            ></v-radio>
+            <v-radio
+              label="not prefer to say"
+              color="success"
+              value="not prefer to say"
+            ></v-radio>
+          </v-radio-group>
+          <h2>Hobbies</h2>
+
+      <v-checkbox
+      v-model="subject"
+        v-for="(choice) in choices"
+        :key="choice.id"
+        :label="choice.name"
+        :value="choice.name"
+        required
+      ></v-checkbox>
+
+
+  <v-select
+      v-model="select"
+      :items="items"
+      :rules="[v => !!v || 'Item is required']"
+      label="location"
+      required
+    ></v-select>
+    <v-checkbox
+      v-model="checkbox"
+      :rules="[v => !!v || 'You must agree to continue!']"
+      label="Do you agree?"
+      required
+    ></v-checkbox>
+    <v-btn
+      v-model = 'button1'
+      :disabled="!valid"
+      color="success"
+      class="mr-4"
+      @click="validate"
+    >
+      Validate
+    </v-btn>
+  </v-form>
+  
+          <v-divider></v-divider>
+  
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="dialog = false"
+            >
+              I accept
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      </div>
+      <v-btn v-model="button2" @click="returner"></v-btn>
+    </v-app>
+</template>
+<script>
+import { validate } from 'json-schema';
+
+
+  export default {
+    data() {
+        return {
+            valid: true,
+      tablelistCounter: 0,
+      name: '',
+      button1: '', 
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+        v => /[a-zA-z]/.test(v) || 'gjh', 
+      ],
+      email: '',
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      ],
+      gender:'',
+      genderRules: [
+        v => !!v || 'required'],
+      choices: [
+       {id :1,name:'Football'},{id:2,name:'Cricket'},{id:3,name:'Basketball'}],
+      items: [
+        'Tamil Nadu',
+        'Maharastra',
+        'Karnataka',
+      ],
+      checkbox: false,
+      radioGroup:1,
+      select:null,
+      subject:[],
+        dialog: false,
+            desserts: [
+               
+            ],
+        
+    //         headers: [
+    //       {
+    //         text: 'Dessert (100g serving)',
+    //         align: 'start', 
+    //         sortable: false,
+    //         value: 'name',
+    //       },
+    //       { text: 'Calories', value: 'calories' },
+    //       { text: 'Fat (g)', value: 'fat' },
+    //       { text: 'Carbs (g)', value: 'carbs' },
+    //       { text: 'Protein (g)', value: 'protein' },
+    //       { text: 'Iron (%)', value: 'iron' },
+    //     ],
+    //     desserts: 
+    // }
+    // },
+        }
+    },
+    components: {
+    }, 
+    methods: {
+      validate (obj) { 
+        this.tablelistCounter++;
+        this.$refs.form.validate()
+        let test = this.desserts.find(o => o.id == obj.id)
+        if(id){
+            name : obj.name, 
+            email
+        }
+        
+        const arr = {
+          name : this.name,
+          email : this.email,
+          gender :this.gender,
+          hobbies :this.subject,
+          location:this.select,
+          id: this.tablelistCounter,
+        }
+        this.desserts.push(arr)
+       // console.log(button1)
+      },
+      returner() {
+        
+      },
+      edit(item) {
+        let id = item.id
+        let obj= this.desserts.find(o => o.id == id)
+        this.dialog = true
+        console.log(obj)
+        validate(obj)
+        //console.log(item)
+      }
+    },
+  }
+  
+</script>
