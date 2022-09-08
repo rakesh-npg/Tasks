@@ -3,13 +3,7 @@
         <h1>
             hello world
         </h1>
-    
-    <!-- <v-data-table
-      :headers="headers"
-      :items="desserts"
-      item-key="name"
-      class="elevation-1"
-    ></v-data-table> -->
+
     <v-simple-table height="300px">
       <template v-slot:default>
         <thead>
@@ -36,6 +30,10 @@
             <th class="text-left">
         
             </th>
+            <th class="text-left">
+        
+      </th>
+      
           </tr>
         </thead>
         <tbody>
@@ -53,6 +51,11 @@
                 <v-btn @click="edit(item)">
                     Edit
                 </v-btn>
+            </td>
+            <td>
+              <v-btn @click="deleteData(item)">
+                Delete
+              </v-btn>
             </td>
           </tr>
         </tbody>
@@ -78,7 +81,7 @@
   
   <v-card>
           <v-card-title class="text-h5 grey lighten-2">
-            Privacy Policy
+            Enter details 
           </v-card-title>
   
           <v-form
@@ -146,44 +149,50 @@
       label="Do you agree?"
       required
     ></v-checkbox>
+    
     <v-btn
       v-model = 'button1'
       :disabled="!valid"
       color="success"
       class="mr-4"
       @click="validate"
+      v-if="!edit_flag"
     >
       Validate
     </v-btn>
+    <v-btn
+      v-model = 'button1'
+      :disabled="!valid"
+      color="success"
+      class="mr-4"
+      @click="updateItem"
+      v-if="edit_flag"
+    >
+      Edit
+    </v-btn>
+ 
   </v-form>
   
           <v-divider></v-divider>
   
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              @click="dialog = false"
-            >
-              I accept
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-dialog>
       </div>
-      <v-btn v-model="button2" @click="returner"></v-btn>
+
     </v-app>
 </template>
 <script>
-import { validate } from 'json-schema';
+//import { validate } from 'json-schema';
 
 
   export default {
     data() {
         return {
+          tempObj: {}, 
+          edit_flag: false, 
             valid: true,
       tablelistCounter: 0,
+      id: null, 
       name: '',
       button1: '', 
       nameRules: [
@@ -199,6 +208,7 @@ import { validate } from 'json-schema';
       gender:'',
       genderRules: [
         v => !!v || 'required'],
+
       choices: [
        {id :1,name:'Football'},{id:2,name:'Cricket'},{id:3,name:'Basketball'}],
       items: [
@@ -214,37 +224,16 @@ import { validate } from 'json-schema';
             desserts: [
                
             ],
-        
-    //         headers: [
-    //       {
-    //         text: 'Dessert (100g serving)',
-    //         align: 'start', 
-    //         sortable: false,
-    //         value: 'name',
-    //       },
-    //       { text: 'Calories', value: 'calories' },
-    //       { text: 'Fat (g)', value: 'fat' },
-    //       { text: 'Carbs (g)', value: 'carbs' },
-    //       { text: 'Protein (g)', value: 'protein' },
-    //       { text: 'Iron (%)', value: 'iron' },
-    //     ],
-    //     desserts: 
-    // }
-    // },
+      
         }
     },
     components: {
     }, 
     methods: {
-      validate (obj) { 
+      validate () { 
         this.tablelistCounter++;
         this.$refs.form.validate()
-        let test = this.desserts.find(o => o.id == obj.id)
-        if(id){
-            name : obj.name, 
-            email
-        }
-        
+
         const arr = {
           name : this.name,
           email : this.email,
@@ -254,19 +243,45 @@ import { validate } from 'json-schema';
           id: this.tablelistCounter,
         }
         this.desserts.push(arr)
-       // console.log(button1)
+        this.$refs.form.reset()
+        this.dialog=false 
       },
       returner() {
         
       },
       edit(item) {
+
+        console.log(item)
         let id = item.id
         let obj= this.desserts.find(o => o.id == id)
+        this.name = item.name
+        this.email = item.email
+        this.gender = item.gender
+        this.subject = item.hobbies
+        this.select = item.location
         this.dialog = true
         console.log(obj)
-        validate(obj)
-        //console.log(item)
-      }
+        this.edit_flag=true 
+        this.tempObj = item 
+      }, 
+      updateItem() {
+        console.log(this.tempObj)
+        this.$refs.form.validate()
+        //let tempObj = this.desserts.findIndex(temp => temp.id == this.id)
+        let test = this.desserts.findIndex(temp => temp.id == this.tempObj.id)
+        this.desserts[test].name = this.name
+        this.desserts[test].email = this.email
+        this.desserts[test].gender = this.gender
+        this.desserts[test].hobbies = this.subject
+        this.desserts[test].location = this.select
+
+        this.edit_flag=false
+        this.dialog = false
+        this.$refs.form.reset()
+      }, 
+      deleteData(item) {
+        this.desserts = this.desserts.filter(data => data.id != item.id)
+      }, 
     },
   }
   
