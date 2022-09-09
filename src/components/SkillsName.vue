@@ -1,6 +1,7 @@
 <template>
   <v-app>
-  <v-form
+    <h1>SkillName</h1>
+  <!-- <v-form
     ref="form"
     v-model="valid"
     lazy-validation
@@ -74,7 +75,7 @@
     >
       Validate
     </v-btn>
-  </v-form>
+  </v-form> -->
   </v-app>
 </template>
 <script>
@@ -125,3 +126,59 @@
     },
   }
 </script>
+<!-- 
+39 -->
+<!-- 
+<v-dialog
+v-model="dialog"
+width="500"
+>
+<template v-slot:activator="{ on, attrs }">
+  <v-btn
+    color="red lighten-2"
+    dark
+    v-bind="attrs"
+    v-on="on"
+  >
+    Click Me
+  </v-btn>
+</template>
+
+  <v-card>
+  <v-card-title class="text-h5 grey lighten-2">
+    Privacy Policy
+  </v-card-title>
+
+  <v-form
+  ref="form"
+  v-model="valid"
+  lazy-validation
+  >
+    <v-text-field
+    v-model="emp_name"
+    label="name">
+    Employee Name
+    </v-text-field>
+
+    <v-text-field
+    v-model="phone"
+    label="phone">
+    Employee Phone
+    </v-text-field>
+
+
+    <v-text-field
+    v-model="rollno"
+    label="rollno">
+    Employee rollno
+    </v-text-field>
+
+
+    <v-btn @click="validate">
+      Submit
+    </v-btn>
+  </v-form>
+
+  <v-divider></v-divider>
+</v-card>
+</v-dialog> -->

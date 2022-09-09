@@ -81,7 +81,7 @@
   
   <v-card>
           <v-card-title class="text-h5 grey lighten-2">
-            Enter details 
+            Privacy Policy
           </v-card-title>
   
           <v-form
@@ -149,7 +149,12 @@
       label="Do you agree?"
       required
     ></v-checkbox>
-    
+    <v-text-field
+      v-model="id"
+      label="id"
+      required
+      v-if="edit_flag"
+    ></v-text-field>
     <v-btn
       v-model = 'button1'
       :disabled="!valid"
@@ -175,10 +180,20 @@
   
           <v-divider></v-divider>
   
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="dialog = false"
+            >
+              I accept
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
       </div>
-
+      <v-btn v-model="button2" @click="returner"></v-btn>
     </v-app>
 </template>
 <script>
@@ -208,7 +223,6 @@
       gender:'',
       genderRules: [
         v => !!v || 'required'],
-
       choices: [
        {id :1,name:'Football'},{id:2,name:'Cricket'},{id:3,name:'Basketball'}],
       items: [
@@ -239,7 +253,7 @@
           email : this.email,
           gender :this.gender,
           hobbies :this.subject,
-          location:this.select,
+          location:this.select, 
           id: this.tablelistCounter,
         }
         this.desserts.push(arr)
@@ -253,27 +267,27 @@
 
         console.log(item)
         let id = item.id
-        let obj= this.desserts.find(o => o.id == id)
+        // let obj= this.desserts.find(o => o.id == id)
         this.name = item.name
         this.email = item.email
         this.gender = item.gender
         this.subject = item.hobbies
         this.select = item.location
         this.dialog = true
-        console.log(obj)
+        // console.log(obj)
         this.edit_flag=true 
         this.tempObj = item 
       }, 
       updateItem() {
-        console.log(this.tempObj)
+        
         this.$refs.form.validate()
-        //let tempObj = this.desserts.findIndex(temp => temp.id == this.id)
-        let test = this.desserts.findIndex(temp => temp.id == this.tempObj.id)
-        this.desserts[test].name = this.name
-        this.desserts[test].email = this.email
-        this.desserts[test].gender = this.gender
-        this.desserts[test].hobbies = this.subject
-        this.desserts[test].location = this.select
+        let tempObj = this.desserts.findIndex(temp => temp.id == this.id)
+        
+        this.desserts[tempObj].name = this.name
+        this.desserts[tempObj].email = this.email
+        this.desserts[tempObj].gender = this.gender
+        this.desserts[tempObj].hobbies = this.subject
+        this.desserts[tempObj].location = this.select
 
         this.edit_flag=false
         this.dialog = false

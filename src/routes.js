@@ -1,14 +1,22 @@
-import SkillsNameVue from "./components/SkillsName.vue"
-
+import PostVueVue from "./components/PostVue.vue"
+import SkillsName from "./components/SkillsName.vue"
+import tableRead from "./components/tableRead.vue"
 
 
 export default[
     {
         path: '/', 
-        component: SkillsNameVue
+        component: SkillsName, 
+        name: 'home'
     }, 
-    // { 
-    //     path: '/about', 
-    //     component: aboutVue
-    // }
+    { 
+        path: '/about', 
+        component: tableRead, 
+        name: 'about'
+    }, 
+    {
+        path: '/posts/:slug', 
+        component: PostVueVue, 
+        name: 'post'
+    }
 ]
