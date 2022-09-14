@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-text-field label="Search" placeholder="Search" v-model="SearchVal">Search</v-text-field>
+        <v-text-field label="Search" placeholder="Search" v-model="SearchVal" >Search</v-text-field>
         <v-btn @click="SearchFunc">
             Search
         </v-btn>
@@ -9,6 +9,12 @@
 
 <script>
 // import {searchBus} from '../main'
+import Vue from 'vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+
+
+Vue.use(VueAxios, axios)
 export default{
     data() {
         return{
@@ -18,28 +24,22 @@ export default{
         }
     },
     methods:{
-        SearchFunc() {
+        async SearchFunc() {
           //  bus.$emit('searchEmitDept', 'testVal')
-            if (this.flag == 'PopupVue')
-            {  
-
-                console.log('POpup')  
-                this.$emit('searchEmitPop', this.SearchVal)
-            
-            }
-            else if (this.flag == 'DepartmentSearch')
-            {
-                console.log('Dept vue ')
-                this.$emit('searchEmitDept', this.SearchVal)
-            }
-            else 
-            console.log('wrong val  ')
+          let tempData = {"searchVal":this.SearchVal}
+          console.log(this.flag)
+          await Vue.axios.post(this.flag, tempData).then((response)=> {
+            console.log('recieved')
+            this.$emit('searchEmitPop', response)
+          })
+          
             this.SearchVal = ''
         
         },
     },
     props:{
-        flag:String
+        flag:String,
+      
     }
 }
 </script>

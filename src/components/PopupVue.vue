@@ -1,7 +1,7 @@
 <template>
 <v-app>
   <div>
-    <SearchBox :flag="name" @searchEmitPop="SearchFunc"/>
+    <SearchBox :flag="searchFieldLink"  @searchEmitPop="SearchFunc"/>
     <br>
     <v-icon  @click="closeSearch" right v-if="searchFieldFlag">mdi-close</v-icon>
   </div>
@@ -149,6 +149,7 @@
   export default{
     data: () => ({
         name:"PopupVue", 
+        searchFieldLink:'http://127.0.0.1:3333/search',
         searchFieldFlag:false, 
         delVal: '', 
         cur_item_id: null,
@@ -166,13 +167,13 @@
         click_item: null,
         click_tname: null,
     }),
-    // async mounted() {
-    //     await Vue.axios.get("http://127.0.0.1:3333/emp/read")
-    //         .then((result) => {
-    //         console.log(result);
-    //         this.table_data = result.data;
-    //     });
-    // },
+    async mounted() {
+        await Vue.axios.get("http://127.0.0.1:3333/emp/read")
+            .then((result) => {
+            console.log(result);
+            this.table_data = result.data;
+        });
+    },
     methods: {
         async validate() {
             this.$refs.form.validate();
@@ -245,13 +246,12 @@
         },
         SearchFunc(val) {
           console.log(val)
-          //Vue.axios.put("")
+          this.table_data = val.data
           this.searchFieldFlag= true
         }, 
         closeSearch(){
-          console.log('test')
-          this.searchFieldFlag=false 
           this.readData()
+          this.searchFieldFlag=false 
         }
     },
     

@@ -1,7 +1,8 @@
 <template>
     <div>
         <h1>dept</h1>
-        <SearchBox :flag="this.name" @searchEmitDept="searchFunc" />
+        <SearchBox :flag="this.searchFiledLink" @searchEmitPop="searchFunc" />
+        <p>{{table_data}}</p>
     </div>
 </template>
 
@@ -12,14 +13,20 @@ export default{
     data() {
         return {
             name:"DepartmentSearch", 
+            searchFiledLink:'http://127.0.0.1:3333/read', 
+            table_data:"hello", 
+            searchFieldFlag:'', 
 
         };
     },
     methods: {
-        searchFunc(val){        
-            //console.log('this is dept workign')
-            console.log(val)
-        },
+        searchFunc(val) {
+
+          console.log('gotva;l')
+          console.log(val)
+          this.table_data = val.data
+          this.searchFieldFlag= true
+        }, 
     },
 }
 </script>
