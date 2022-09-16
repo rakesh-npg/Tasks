@@ -1,8 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
+import vuetify from './plugins/vuetify'
+import SearchBox from './components/SearchBox.vue'
+
 
 Vue.config.productionTip = false
+Vue.component('SearchBox', SearchBox)
 
 new Vue({
-  render: h => h(App),
+  vuetify,
+  render: h => h(App)
 }).$mount('#app')
