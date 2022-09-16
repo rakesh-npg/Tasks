@@ -1,7 +1,7 @@
 <template>
-    <v-app>
-
+    <v-app>          
         <SearchBox :flag="Searchlink"  @searchEmitPop="SearchFunc"/>
+        
         <div>
 
         <v-dialog
@@ -50,12 +50,12 @@
                     label="rollno">
                     Employee rollno
                     </v-text-field>
-
-                    <v-text-field
-                    v-model="salary"
+                    
+                    <v-text-field type="text" 
+                    v-model="salaryInput" 
+                    v-currency="salaryInput"  
                     label="salary"
-                    v-salary>
-                    Employee Salary 
+                    >
                     </v-text-field>
 
                     <v-btn @click="validateForm">
@@ -130,7 +130,6 @@
 
                 <v-form
                 ref="form"
-                v-model="edit_form"
                 lazy-validation
                 >
 
@@ -161,6 +160,7 @@ Vue.use(VueAxios, axios)
 export default {
 
     data: () => ({
+        salaryInput:'',
         baseURL:"http://127.0.0.1:3333",
         sortFlagArray : [true, true, true, true], 
         Searchlink:"http://127.0.0.1:3333/search",
@@ -175,11 +175,15 @@ export default {
             empRollno: "", 
             empPhone: "", 
             empTableID:"", 
+            empSalary:"", 
         }, 
         editFormData: {
             columnName:"", 
             newData:"", 
             tableID:"", 
+        }, 
+        searchValObj:{
+            searchVal:""
         }
         
         
@@ -247,11 +251,22 @@ export default {
                     return 'mdi-arrow-up'
             },
 
-            SearchFunc(val) {
+            async SearchFunc(val) {
                 console.log(val)
-                this.tableData = val.data
+                this.searchValObj.searchVal = val
+                let tempPromsie = await api.post("/search", this.searchValObj)
+                this.tableData = tempPromsie.data
                 this.searchFieldFlag= true
             }, 
+
+            thousandInsert() {
+                console.log('wokring')
+                this.searchInput = " "
+            },
+
+            searchInputFunc() {
+                console.log('this is test function')
+            },
         }
 }
 </script>

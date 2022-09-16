@@ -1,11 +1,11 @@
 cleaning code : done 
 using object in form : done 
 .env file for URL : done 
-api.js file for api : except for one method for seach rest all done 
+api.js file for api : done
 search using key down : done 
-search by calling a function with emit : pending 
+search by calling a function with emit : done 
 create another component for deptartment : pending 
-custom events : pending 
+custom directives : done 
 
 # formtaskfinal
 

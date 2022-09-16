@@ -1,6 +1,7 @@
 <template>
     <div>
-        <v-text-field @keypress="SearchFunc" label="Search" placeholder="Search" v-model="SearchVal" >Search</v-text-field>
+        <v-text-field @keydown="searchFunc" label="Search" placeholder="Search" v-model="searchVal" >Search</v-text-field>
+        <!-- <v-btn @click="searchDebounce(searchFunc, 2000)"></v-btn> -->
     </div>
 </template>
 
@@ -11,32 +12,21 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 
+
 Vue.use(VueAxios, axios)
 export default{
     data() {
         return{
-            SearchVal:'', 
+            searchVal:"",
         }
     },
     methods:{
-        async SearchFunc() {
-            let time = true 
-            if(time){
-                clearTimeout(time)
-                time = null 
-            }
-            time =  setTimeout(async () => {
-                console.log('working')
-          let tempData = {"searchVal":this.SearchVal}
-          console.log(this.flag)
-          await Vue.axios.post(this.flag, tempData).then((response)=> {
-            console.log('recieved')
-            this.$emit('searchEmitPop', response)
-          })
-          
-           
-            }, 800)
-            
+
+
+        async searchFunc() {
+        console.log('working')
+        this.$emit('searchEmitPop', this.searchVal  )
+        
         
         },
     },
